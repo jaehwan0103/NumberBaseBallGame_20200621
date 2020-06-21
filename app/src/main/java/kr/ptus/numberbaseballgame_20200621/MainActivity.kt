@@ -7,6 +7,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.ptus.numberbaseballgame_20200621.adapters.ChatAdapter
 import kr.ptus.numberbaseballgame_20200621.datas.Chat
+import org.w3c.dom.Document
 
 class MainActivity : BaseActivity() {
 
@@ -52,15 +53,41 @@ class MainActivity : BaseActivity() {
 
     }
 
-    fun checkUserInputStrikeAndBall(input : String){
+    fun checkUserInputStrikeAndBall(input: String) {
 
         val number = input.toInt()
 
         val numArr = ArrayList<Int>()
 
         numArr.add(number / 100)
-        numArr.add(number /10 % 10)
+        numArr.add(number / 10 % 10)
         numArr.add(number % 10)
+
+        var strikeCount = 0
+        var ballCount = -0
+
+        for (i in numArr.indices) {
+
+            for (j in cpuNumList.indices) {
+
+                if (numArr[i] == cpuNumList[j]) {
+
+
+                    if (i == j) {
+                        strikeCount++
+                    } else {
+                        ballCount++
+                    }
+                }
+
+
+            }
+
+        }
+
+        chatList.add(Chat("cpu", "${strikeCount}S ,${ballCount}B 입니다."))
+
+        mChatAdapter.notifyDataSetChanged()
 
     }
 
@@ -68,7 +95,7 @@ class MainActivity : BaseActivity() {
 
         makeQuestionNum()
 
-        for (num in cpuNumList){
+        for (num in cpuNumList) {
             Log.d("문제 출제", num.toString())
         }
 
