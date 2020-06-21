@@ -89,6 +89,19 @@ class MainActivity : BaseActivity() {
 
         mChatAdapter.notifyDataSetChanged()
 
+        if (strikeCount == 3){
+
+            chatList.add(Chat("CPU","축하합니다."))
+
+            runOnUiThread {
+                Toast.makeText(mContext,"게임을 종료합니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            numberEdt.isEnabled = false
+            inputBtn.isEnabled = false
+
+        }
+
     }
 
     override fun setValues() {
