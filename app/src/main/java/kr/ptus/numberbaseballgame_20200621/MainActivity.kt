@@ -9,6 +9,8 @@ import kr.ptus.numberbaseballgame_20200621.datas.Chat
 
 class MainActivity : BaseActivity() {
 
+    val cpuNumList = ArrayList<Int>()
+
     val chatList = ArrayList<Chat>()
     lateinit var mChatAdapter: ChatAdapter
 
@@ -35,10 +37,12 @@ class MainActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            chatList.add(Chat("ME" , inputNum))
+            chatList.add(Chat("ME", inputNum))
 
             mChatAdapter.notifyDataSetChanged()
 
+
+            numberEdt.setText("")
 
 
         }
@@ -48,12 +52,44 @@ class MainActivity : BaseActivity() {
 
     override fun setValues() {
 
+        makeQuestionNum()
+
         chatList.add(Chat("CPU", "숫자야구 게임에 오신 것을 환영합니다."))
         chatList.add(Chat("CPU", "세자리 숫자를 맞춰주세요."))
         chatList.add(Chat("CPU", "0은 포함되지 않으며, 중복된 숫자도 없습니다."))
 
         mChatAdapter = ChatAdapter(mContext, R.layout.chat_list_item, chatList)
         ChatListView.adapter = mChatAdapter
+
+
+    }
+
+    fun makeQuestionNum() {
+
+        for (i in 0..2) {
+
+            while (true) {
+
+                val randomNum = (Math.random() * 9 + 1).toInt()
+
+                var duplCheckResult = true
+
+                for (num in cpuNumList) {
+                    if (num == randomNum) {
+                        duplCheckResult = false
+                    }
+                }
+
+                if (duplCheckResult) {
+
+                    cpuNumList.add(randomNum)
+
+                    break
+                }
+            }
+
+
+        }
 
     }
 }
