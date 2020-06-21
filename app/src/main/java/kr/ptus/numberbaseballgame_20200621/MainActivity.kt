@@ -11,6 +11,8 @@ import org.w3c.dom.Document
 
 class MainActivity : BaseActivity() {
 
+    var inputTryCount = 0
+
     val cpuNumList = ArrayList<Int>()
 
     val chatList = ArrayList<Chat>()
@@ -53,7 +55,27 @@ class MainActivity : BaseActivity() {
 
     }
 
+    override fun setValues() {
+
+        makeQuestionNum()
+
+        for (num in cpuNumList) {
+            Log.d("문제 출제", num.toString())
+        }
+
+        chatList.add(Chat("CPU", "숫자야구 게임에 오신 것을 환영합니다."))
+        chatList.add(Chat("CPU", "세자리 숫자를 맞춰주세요."))
+        chatList.add(Chat("CPU", "0은 포함되지 않으며, 중복된 숫자도 없습니다."))
+
+        mChatAdapter = ChatAdapter(mContext, R.layout.chat_list_item, chatList)
+        ChatListView.adapter = mChatAdapter
+
+
+    }
+
     fun checkUserInputStrikeAndBall(input: String) {
+
+        inputTryCount++
 
         val number = input.toInt()
 
@@ -92,6 +114,9 @@ class MainActivity : BaseActivity() {
         if (strikeCount == 3){
 
             chatList.add(Chat("CPU","축하합니다."))
+            chatList.add(Chat("CPU","${inputTryCount}회만에 맞췄습니다."))
+
+            mChatAdapter.notifyDataSetChanged()
 
             runOnUiThread {
                 Toast.makeText(mContext,"게임을 종료합니다.", Toast.LENGTH_SHORT).show()
@@ -101,24 +126,6 @@ class MainActivity : BaseActivity() {
             inputBtn.isEnabled = false
 
         }
-
-    }
-
-    override fun setValues() {
-
-        makeQuestionNum()
-
-        for (num in cpuNumList) {
-            Log.d("문제 출제", num.toString())
-        }
-
-        chatList.add(Chat("CPU", "숫자야구 게임에 오신 것을 환영합니다."))
-        chatList.add(Chat("CPU", "세자리 숫자를 맞춰주세요."))
-        chatList.add(Chat("CPU", "0은 포함되지 않으며, 중복된 숫자도 없습니다."))
-
-        mChatAdapter = ChatAdapter(mContext, R.layout.chat_list_item, chatList)
-        ChatListView.adapter = mChatAdapter
-
 
     }
 
