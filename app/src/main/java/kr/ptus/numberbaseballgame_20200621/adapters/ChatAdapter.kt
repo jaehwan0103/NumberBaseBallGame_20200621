@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import kr.ptus.numberbaseballgame_20200621.R
 import kr.ptus.numberbaseballgame_20200621.datas.Chat
@@ -33,6 +34,28 @@ class ChatAdapter(val mContext: Context, val resId: Int, val mList: List<Chat>) 
 
         val row = tempRow!!
 
+        val computerLayout = row.findViewById<LinearLayout>(R.id.computerLayout)
+        val computerTxt = row.findViewById<TextView>(R.id.computerTxt)
+        val  myLayout = row.findViewById<LinearLayout>(R.id.myLayout)
+        val myTxt = row.findViewById<TextView>(R.id.myTxt)
+
+        val data = mList[position]
+
+        if (data.who == "CPU"){
+            computerLayout.visibility = View.VISIBLE
+            myLayout.visibility = View.GONE
+
+
+            computerTxt.text = data.content
+
+        }
+        else{
+            computerLayout.visibility = View.GONE
+            myLayout.visibility = View.VISIBLE
+
+            myTxt.text = data.content
+
+        }
 
         return row
 
