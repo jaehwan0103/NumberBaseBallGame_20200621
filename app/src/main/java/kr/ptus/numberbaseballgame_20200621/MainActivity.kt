@@ -2,6 +2,7 @@ package kr.ptus.numberbaseballgame_20200621
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.ptus.numberbaseballgame_20200621.adapters.ChatAdapter
@@ -44,15 +45,32 @@ class MainActivity : BaseActivity() {
 
             numberEdt.setText("")
 
+            checkUserInputStrikeAndBall(inputNum)
 
         }
 
 
     }
 
+    fun checkUserInputStrikeAndBall(input : String){
+
+        val number = input.toInt()
+
+        val numArr = ArrayList<Int>()
+
+        numArr.add(number / 100)
+        numArr.add(number /10 % 10)
+        numArr.add(number % 10)
+
+    }
+
     override fun setValues() {
 
         makeQuestionNum()
+
+        for (num in cpuNumList){
+            Log.d("문제 출제", num.toString())
+        }
 
         chatList.add(Chat("CPU", "숫자야구 게임에 오신 것을 환영합니다."))
         chatList.add(Chat("CPU", "세자리 숫자를 맞춰주세요."))
